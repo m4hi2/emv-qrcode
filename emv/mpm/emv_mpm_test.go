@@ -186,7 +186,7 @@ func TestDecode(t *testing.T) {
 			args: args{
 				payload: "",
 			},
-			want:    &EMVQR{},
+			want:    nil,
 			wantErr: true,
 		},
 		{
@@ -435,6 +435,22 @@ func TestDecode(t *testing.T) {
 			name: "failed parse",
 			args: args{
 				payload: "00020", // not enough length
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "wrong CRC",
+			args: args{
+				payload: "00020101021229300012D156000000000510A93FO3230Q31280012D15600000001030812345678520441115802CN5914BEST TRANSPORT6007BEIJING64200002ZH0104最佳运输0202北京540523.7253031565502016233030412340603***0708A60086670902ME91320016A0112233449988770708123456786304FFFF",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "missing CRC",
+			args: args{
+				payload: "00020101021229300012D156000000000510A93FO3230Q31280012D15600000001030812345678520441115802CN5914BEST TRANSPORT6007BEIJING64200002ZH0104最佳运输0202北京540523.7253031565502016233030412340603***0708A60086670902ME91320016A011223344998877070812345678",
 			},
 			want:    nil,
 			wantErr: true,
